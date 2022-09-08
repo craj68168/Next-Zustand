@@ -1,17 +1,27 @@
 import create from "zustand";
-import {devtools} from "zustand/middleware"
+import { devtools, persist } from "zustand/middleware";
 
-const store = (set:any)=>({
-    people:["Raj","Roshan","Rahul"],
-    addPerson:(person:any)=> set((state:any)=>({people:[...state.people,person]}))
-})
-const useStore = create(devtools(store))
+let toggleStore = (set: any) => ({
+  dark: false,
+  toggleDarkMode: () => set((state: any) => ({ dark: !state.dark })),
+});
 
-export default useStore;
+let peopleStore = (set: any) => ({
+  people: ["Raj", "Roshan", "Rahul"],
+  addPerson: (person: any) =>
+    set((state: any) => ({ people: [...state.people, person] })),
+});
 
-// without middleware devtools.
+export const useStore = create(
+  devtools(
+    persist(toggleStore, {
+      name: "toggleStore",
+    })
+  )
+);
 
-// const useStore = create((set)=>({
-//     people:["Raj","Roshan","Rahul"],
-//     addPerson:(person:any)=> set((state:any)=>({people:[...state.people,person]}))
-// }))
+export const usePeopleStore = create(
+  devtools(persist(peopleStore, { name: "peopleStore" }))
+);
+
+

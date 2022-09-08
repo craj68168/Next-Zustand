@@ -1,15 +1,23 @@
-import React from 'react'
-import useStore from '../store/authStore'
+import React, { useEffect, useState } from "react";
+import {usePeopleStore} from "../store/authStore";
 
 const People = () => {
-    const people = useStore((state:any)=>(state?.people))
+  const [peoples, setPeoples] = useState([]);
+  const people = usePeopleStore((state: any) => state?.people);
+  useEffect(() => {
+    setPeoples(people);
+  }, [people]);
+
   return (
     <div>
-        <h3>We have {people.length} People in our store</h3>
-        <ul>{people.map((data:any)=>(<li>{data}</li>))}</ul>
+      <h3>We have {peoples.length} People in our store</h3>
+      <ul>
+        {peoples.map((data: any) => (
+          <li>{data}</li>
+        ))}
+      </ul>
     </div>
-    
-  )
-}
+  );
+};
 
-export default People
+export default People;

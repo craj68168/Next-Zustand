@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import useStore from "../store/authStore";
+import {usePeopleStore} from "../store/authStore";
 
 const Input = () => {
-  const addPerson = useStore((state: any) => state.addPerson);
+  const addPerson = usePeopleStore((state: any) => state.addPerson);
   const inputRef = useRef<any>(null);
   const addInput = () => {
     addPerson(inputRef?.current?.value);
